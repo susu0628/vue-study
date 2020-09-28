@@ -6,36 +6,35 @@
         <p>{{bar.title}}</p>
       </li>
     </ul>
-    <template v-if="alreadyEnterHome && !alreadyEnterHome.deep">
-      <div class="guide_icon">
-        <div class="icon_inner">
-          <ColorIcon use="icon-Homemaintenance" :style="{width: '0.6rem', height: '0.6rem'}" />
-          <p>库存盘点</p>
-        </div>
-      </div>
-      <div class="guide_text">
-        <p class="text_style">在这里开始门店的库存盘点哟</p>
-        <ColorIcon use="icon-icon_shurushanchu" :style="{marginTop: '0.3rem', position: 'absolute', left: '1.6rem', width: '0.52rem', height: '0.52rem'}" @click="() => {closeGuide(1)}" />
-      </div>
-      <div class="guide_mask"></div>
-    </template>
-    <template v-if="alreadyEnterHome && alreadyEnterHome.deep === 1">
-      <div class="guide_icon guide_search">
-        <div class="icon_inner">
-          <ColorIcon use="icon-Homemaintenance" :style="{width: '0.6rem', height: '0.6rem'}" />
-          <p>库存查询</p>
-        </div>
-      </div>
-      <div class="guide_text text_search">
-        <p class="text_style">在这里开始门店的库存查询哟</p>
-        <ColorIcon use="icon-icon_shurushanchu" :style="{marginTop: '0.3rem', position: 'absolute', left: '1.6rem', width: '0.52rem', height: '0.52rem'}" @click="() => {closeGuide(2)}" />
-      </div>
-      <div class="guide_mask"></div>
-    </template>
+    <Guide
+      TipText="库存盘点"
+      TipIcon="icon-Homemaintenance"
+      GuideText="在这里开始门店的库存盘点哟"
+      @click="() => {closeGuide(1)}"
+      v-if="alreadyEnterHome && !alreadyEnterHome.deep"
+    />
+    <Guide
+      TipText="库存查询"
+      TipIcon="icon-Inquire"
+      :TipStyle="{left: '1.3rem'}"
+      GuideText="在这里开始门店的库存查询哟"
+      @click="() => {closeGuide(2)}"
+      v-if="alreadyEnterHome && alreadyEnterHome.deep === 1"
+    />
+    <Guide
+      TipText="报货计划"
+      TipIcon="icon-icon_dispatch"
+      :TipStyle="{left: '4.5rem'}"
+      GuideText="所属门店报货计划在这哟"
+      :GuideStyle="{left: '3.7rem'}"
+      @click="() => {closeGuide(3)}"
+      v-if="alreadyEnterHome && alreadyEnterHome.deep === 2"
+    />
   </div>
 </template>
 <script>
 import ColorIcon from '../../components/ColorIcon'
+import Guide from '../../components/Guide'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'Home',
@@ -66,13 +65,11 @@ export default {
     }
   },
   components: {
-    ColorIcon
+    ColorIcon,
+    Guide
   },
   computed: {
     ...mapGetters('Home', ['alreadyEnterHome'])
-  },
-  mounted () {
-    console.log(234234, this.alreadyEnterHome)
   },
   methods: {
     ...mapMutations('Home', ['UPDATE_GEUIDE']),
@@ -95,54 +92,5 @@ export default {
       list-style-type: none;
       text-align: center;
     }
-  }
-  .guide_icon {
-    width: 1.8rem;
-    height: 1.62rem;
-    position: absolute;
-    top: 0.06rem;
-    left: 0.06rem;
-    z-index: 30;
-    border: 0.02rem dashed white;
-    border-radius: 0.08rem;
-    .icon_inner {
-      width: 1.5rem;
-      height: 1.32rem;
-      margin: 0.15rem;
-      background-color: #ffffff;
-      border-radius: 0.06rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      p {
-        font-size: 0.24rem;
-      }
-    }
-  }
-  .guide_search {
-    left: 1.3rem;
-  }
-  .text_search {
-    left: 0.3rem;
-  }
-  .guide_text {
-    position: absolute;
-    top: 2rem;
-    left: 0.1rem;
-    z-index: 30;
-    color: #ffffff;
-    .text_style {
-      font-size: 0.30rem;
-    }
-  }
-  .guide_mask {
-    position: fixed;
-    top: 0rem;
-    left: 0rem;
-    z-index: 20;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
   }
 </style>
