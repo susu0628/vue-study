@@ -23,4 +23,8 @@ export default {
   html {
     height: 100%;
   }
+  body {
+    font-size: 0.16rem;
+    padding: 0.24rem;
+  }
 </style>
