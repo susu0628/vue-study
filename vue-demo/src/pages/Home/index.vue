@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul class="barBox">
-      <li v-for="(bar, idx) in barList" :key="idx">
+      <li v-for="(bar, idx) in barList" :key="idx" @click="() => {jumpIndex(bar.title)}">
         <ColorIcon :use="bar.icon" :style="{width: '0.52rem', height: '0.52rem', marginBottom: '0.08rem'}" />
         <p>{{bar.title}}</p>
       </li>
@@ -78,6 +78,11 @@ export default {
       this.UPDATE_GEUIDE({
         ...this.alreadyEnterHome,
         deep
+      })
+    },
+    jumpIndex (title) {
+      this.$router.push({
+        path: `/index/${title}`
       })
     }
   }
