@@ -19,8 +19,8 @@ export default {
       menuList: [
         {
           path: '/home',
-          normalIcon: 'icon-home',
-          activeIcon: 'icon-homefill',
+          normalIcon: 'icon-icon-store1',
+          activeIcon: 'icon-icon-store',
           menu_text: '首页'
         },
         {
@@ -31,8 +31,8 @@ export default {
         },
         {
           path: '/dataAnalysis',
-          normalIcon: 'icon-cart',
-          activeIcon: 'icon-cartfill',
+          normalIcon: 'icon-icon-shoppingcart',
+          activeIcon: 'icon-icon-shoppingcart1',
           menu_text: '购物车'
         },
         {

@@ -36,6 +36,7 @@
 import ColorIcon from '../../components/ColorIcon'
 import Guide from '../../components/Guide'
 import { mapMutations, mapGetters } from 'vuex'
+import axios from 'axios'
 export default {
   name: 'Home',
   data: () => {
@@ -67,6 +68,11 @@ export default {
   components: {
     ColorIcon,
     Guide
+  },
+  mounted () {
+    axios.get('http://localhost:3000/home/productClass').then((result) => {
+      console.log(234234234, result)
+    })
   },
   computed: {
     ...mapGetters('Home', ['alreadyEnterHome'])
