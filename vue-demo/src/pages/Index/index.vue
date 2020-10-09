@@ -1,45 +1,85 @@
 <template>
-  <div>
-    {{title}}
-    <button :style="{fontSize: '0.32rem'}" @click="jump">跳转</button>
+  <div class="container_box">
+    <router-view></router-view>
+    <ul class="navbar_box">
+      <li v-for="(item, idx) in menuList" :key="idx" @click="() => {handleActiveLink(idx, item.path)}">
+        <ColorIcon :use="activeLink === idx ? item.activeIcon : item.normalIcon" :style="{width: '0.5rem', height: '0.5rem'}" />
+        <p v-text="item.menu_text"></p>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
+import ColorIcon from '../../components/ColorIcon'
 export default {
   name: 'Index',
   data: () => {
     return {
-      title: ''
+      activeLink: 0,
+      menuList: [
+        {
+          path: '/home',
+          normalIcon: 'icon-icon_home_normal',
+          activeIcon: 'icon-icon_home_select1',
+          menu_text: '首页'
+        },
+        {
+          path: '/shopMgmt',
+          normalIcon: 'icon-icon-store1',
+          activeIcon: 'icon-icon-store',
+          menu_text: '门店'
+        },
+        {
+          path: '/dataAnalysis',
+          normalIcon: 'icon-shujv',
+          activeIcon: 'icon-shujv2',
+          menu_text: '数据'
+        },
+        {
+          path: '/my',
+          normalIcon: 'icon-icon_personal_normal',
+          activeIcon: 'icon-icon_personal_select1',
+          menu_text: '我的',
+          extra: true
+        }
+      ]
     }
   },
-  created () {
-    console.log(22222, this.$route.params)
+  components: {
+    ColorIcon
   },
-  beforeRouteUpdate (to, from, next) {
-    if (to.name === 'Index') {
-      this.title = to.params.title
-    }
-  },
-  // watch: {
-  //   $route (to, from) {
-  //     if (to.name === 'Index') {
-  //       this.title = to.params.title
-  //     }
-  //   }
-  // },
   mounted () {
-    const { title } = this.$route.params
-    this.title = title
   },
   methods: {
-    jump () {
+    handleActiveLink (idx, path) {
+      this.activeLink = idx
       this.$router.push({
-        path: `/index/库存查询`
+        path: `${path}`
       })
     }
   }
 }
 </script>
 <style lang="less" scoped>
-
+.container_box {
+  padding: 0.16rem;
+  .navbar_box {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.24rem;
+    position: fixed;
+    bottom: 0rem;
+    left: 0rem;
+    width: 100vw;
+    height: 1rem;
+    box-shadow: 0 -0.02rem 0.06rem 0 rgba(0, 0, 0, 0.07);
+    li {
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
 </style>

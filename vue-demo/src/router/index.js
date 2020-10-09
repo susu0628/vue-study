@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/pages/Login'
 import Index from '@/pages/Index'
 import Home from '@/pages/Home'
+import My from '@/pages/My'
 Vue.use(Router)
 
 export default new Router({
@@ -13,14 +14,22 @@ export default new Router({
       component: Login
     },
     {
-      path: '/index/:title',
+      path: '/',
+      redirect: '/home',
       name: 'Index',
-      component: Index
-    },
-    {
-      path: '/home',
-      name: 'Home',
-      component: Home
+      component: Index,
+      children: [
+        {
+          path: 'home',
+          name: 'Home',
+          component: Home
+        },
+        {
+          path: 'my',
+          name: 'My',
+          component: My
+        }
+      ]
     }
   ]
 })
