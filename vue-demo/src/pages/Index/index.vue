@@ -19,21 +19,21 @@ export default {
       menuList: [
         {
           path: '/home',
-          normalIcon: 'icon-icon_home_normal',
-          activeIcon: 'icon-icon_home_select1',
+          normalIcon: 'icon-home',
+          activeIcon: 'icon-homefill',
           menu_text: '首页'
         },
         {
           path: '/shopMgmt',
           normalIcon: 'icon-icon-store1',
           activeIcon: 'icon-icon-store',
-          menu_text: '门店'
+          menu_text: '全部宝贝'
         },
         {
           path: '/dataAnalysis',
-          normalIcon: 'icon-shujv',
-          activeIcon: 'icon-shujv2',
-          menu_text: '数据'
+          normalIcon: 'icon-cart',
+          activeIcon: 'icon-cartfill',
+          menu_text: '购物车'
         },
         {
           path: '/my',
