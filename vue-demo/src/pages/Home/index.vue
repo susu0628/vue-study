@@ -1,42 +1,31 @@
 <template>
-  <div>
-    <ul class="barBox">
-      <li v-for="(bar, idx) in barList" :key="idx" @click="() => {jumpIndex(bar.title)}">
-        <ColorIcon :use="bar.icon" :style="{width: '0.52rem', height: '0.52rem', marginBottom: '0.08rem'}" />
-        <p>{{bar.title}}</p>
-      </li>
-    </ul>
-    <Guide
-      TipText="库存盘点"
-      TipIcon="icon-Homemaintenance"
-      GuideText="在这里开始门店的库存盘点哟"
-      @click="() => {closeGuide(1)}"
-      v-if="alreadyEnterHome && !alreadyEnterHome.deep"
-    />
-    <Guide
-      TipText="库存查询"
-      TipIcon="icon-Inquire"
-      :TipStyle="{left: '1.3rem'}"
-      GuideText="在这里开始门店的库存查询哟"
-      @click="() => {closeGuide(2)}"
-      v-if="alreadyEnterHome && alreadyEnterHome.deep === 1"
-    />
-    <Guide
-      TipText="报货计划"
-      TipIcon="icon-icon_dispatch"
-      :TipStyle="{left: '4.5rem'}"
-      GuideText="所属门店报货计划在这哟"
-      :GuideStyle="{left: '3.7rem'}"
-      @click="() => {closeGuide(3)}"
-      v-if="alreadyEnterHome && alreadyEnterHome.deep === 2"
-    />
+  <div class="home">
+    <div class="home_top">
+      <VantSearch class="top_search" />
+    </div>
+    <div class="home_swipe">
+      <div class="swipe_title">
+        <p>首页</p>
+      </div>
+      <section class="swipe_time">
+        <p>商城服务时间：9:00-18:00</p>
+        <p>为更好的为您服务，请大家在服务时间内咨询客服噢~</p>
+        <p class="swiper_heart">♥ ♥ ♥ ♥</p>
+      </section>
+      <VantSwipe :autoplay="3000" class="swiper_img">
+        <VantSwipeItem v-for="(item, index) in swapperImg" :key="index">
+          <img :src="item.img_src" />
+        </VantSwipeItem>
+      </VantSwipe>
+    </div>
   </div>
 </template>
 <script>
+import { Search, Swipe, SwipeItem, Lazyload } from 'vant'
 import ColorIcon from '../../components/ColorIcon'
 import Guide from '../../components/Guide'
-import { mapMutations, mapGetters } from 'vuex'
-import axios from 'axios'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
+import request from '../../utils/request'
 export default {
   name: 'Home',
   data: () => {
@@ -66,19 +55,25 @@ export default {
     }
   },
   components: {
+    VantSearch: Search,
+    VantSwipe: Swipe,
+    VantSwipeItem: SwipeItem,
+    VantLazyload: Lazyload,
     ColorIcon,
     Guide
   },
   mounted () {
-    axios.get('http://localhost:3000/home/productClass').then((result) => {
-      console.log(234234234, result)
+    this.getSwapperImg()
+    request('/home/productClass', {}, 'GET').then((data) => {
+      console.log(234234, data)
     })
   },
   computed: {
-    ...mapGetters('Home', ['alreadyEnterHome'])
+    ...mapGetters('Home', ['alreadyEnterHome', 'swapperImg'])
   },
   methods: {
     ...mapMutations('Home', ['UPDATE_GEUIDE']),
+    ...mapActions('Home', ['getSwapperImg']),
     closeGuide (deep) {
       console.log(234234, deep)
       this.UPDATE_GEUIDE({
@@ -95,13 +90,71 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .barBox {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.24rem;
-    li {
-      list-style-type: none;
-      text-align: center;
+  .home {
+    .home_top {
+      width: 100vw;
+      height: 0.8rem;
+      background-color: #efefef;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .top_search {
+        height: 0.6rem;
+        width: 5.2rem;
+        border-radius: 0.4rem;
+        /deep/ .van-search__content {
+          background-color: #fff;
+        }
+        /deep/ .van-field__left-icon .van-icon, .van-field__right-icon .van-icon {
+          font-size: 0.3rem;
+        }
+        .van-cell {
+          font-size: 0.24rem;
+          line-height: 0.24rem;
+        }
+        .van-search__content {
+          border-radius: 1rem;
+        }
+      }
+    }
+    .home_swipe {
+      font-size: 0.24rem;
+      .swipe_title {
+        height: 0.6rem;
+        line-height: 0.6rem;
+        text-align: center;
+        border-bottom: 0.01rem solid #eee;
+        position: relative;
+        color: #f75f47;
+      }
+      .swipe_title::after {
+        position: absolute;
+        bottom: 0.05rem;
+        left: 2.24rem;
+        content: '';
+        display: block;
+        width: 40%;
+        height: 0.06rem;
+        border-radius: 0.03rem;
+        background-color: #f75f47;
+      }
+      .swipe_time {
+        margin-top: 0.24rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .swiper_heart {
+          color: #f75f47;
+          margin-top: 0.12rem;
+        }
+      }
+      /deep/ .van-swipe__indicators .van-swipe__indicator {
+        height: 0.12rem;
+        width: 0.12rem;
+      }
+      /deep/ .van-swipe__indicators .van-swipe__indicator--active {
+        background-color: #f75f47;
+      }
     }
   }
 </style>

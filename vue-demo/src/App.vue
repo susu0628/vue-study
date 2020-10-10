@@ -25,6 +25,5 @@ export default {
   }
   body {
     font-size: 0.16rem;
-    padding: 0.24rem;
   }
 </style>

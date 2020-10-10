@@ -62,7 +62,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .container_box {
-  padding: 0.16rem;
   .navbar_box {
     display: flex;
     justify-content: space-around;
