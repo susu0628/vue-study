@@ -8,13 +8,13 @@ const router = new Router()
 const files = fs.readdirSync(__dirname)
 // files: ['home.js', 'index.js']
 files.filter((file) => {
-  // . 匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 \. 
+  // . 匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 \.
   return file.search(/^[.]*\.js$/)
 }).forEach((file) => {
-  const file_name = file.substr(0, file.length - 3)
-  const file_enter = require(path.join(__dirname, file))
-  if (file_name !== 'index') {
-    router.use(`/${file_name}`, file_enter.routes(), file_enter.allowedMethods())
+  const fileName = file.substr(0, file.length - 3)
+  const fileEnter = require(path.join(__dirname, file))
+  if (fileName !== 'index') {
+    router.use(`/${fileName}`, fileEnter.routes(), fileEnter.allowedMethods())
   }
 })
 module.exports = router

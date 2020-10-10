@@ -1,5 +1,5 @@
 const Koa = require('koa')
-const staticFiles  = require('koa-static')
+const staticFiles = require('koa-static')
 const path = require('path')
 // 引入根路由
 const router = require('./routes')
