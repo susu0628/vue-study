@@ -3,7 +3,8 @@ const home = {
   namespaced: true,
   state: {
     alreadyEnterHome: JSON.parse(sessionStorage.getItem('alreadyEnterHome') || '{}'),
-    swapperImg: []
+    swapperImg: [],
+    productClass: []
   },
   mutations: {
     UPDATE_GEUIDE: (state, payload = {}) => {
@@ -11,15 +12,18 @@ const home = {
       sessionStorage.setItem('alreadyEnterHome', JSON.stringify(payload))
     },
     UPDATE_SWIPPER: (state, payload = {}) => {
-      console.log(234234, payload)
       state.swapperImg = payload
+    },
+    UPDATE_PRODUCTCLASS: (state, payload = {}) => {
+      state.productClass = payload
     }
   },
   actions: {
     getSwapperImg ({commit}) {
       request('/home/getProductSwiper', {}, 'GET').then((data) => {
-        console.log(2222, data)
-        commit('UPDATE_SWIPPER', data)
+        const {swiperImg, productClass} = data
+        commit('UPDATE_SWIPPER', swiperImg)
+        commit('UPDATE_PRODUCTCLASS', productClass)
       })
     }
   },
@@ -28,8 +32,10 @@ const home = {
       return state.alreadyEnterHome
     },
     swapperImg: (state) => {
-      console.log(23423400, state)
       return state.swapperImg
+    },
+    productClass: (state) => {
+      return state.productClass
     }
   }
 }

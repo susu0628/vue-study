@@ -18,14 +18,22 @@
         </VantSwipeItem>
       </VantSwipe>
     </div>
+    <section class="class_title">热门分类</section>
+    <ul class="home_class">
+      <li v-for="item in productClass" :key="item.id">
+        <div class="class_box">
+          <img :src="item.img_src" />
+        </div>
+        <p class="class_text">{{item.name}}>></p>
+      </li>
+    </ul>
   </div>
 </template>
 <script>
-import { Search, Swipe, SwipeItem, Lazyload } from 'vant'
+import { Search, Swipe, SwipeItem } from 'vant'
 import ColorIcon from '../../components/ColorIcon'
 import Guide from '../../components/Guide'
 import { mapMutations, mapGetters, mapActions } from 'vuex'
-import request from '../../utils/request'
 export default {
   name: 'Home',
   data: () => {
@@ -58,18 +66,14 @@ export default {
     VantSearch: Search,
     VantSwipe: Swipe,
     VantSwipeItem: SwipeItem,
-    VantLazyload: Lazyload,
     ColorIcon,
     Guide
   },
   mounted () {
     this.getSwapperImg()
-    request('/home/productClass', {}, 'GET').then((data) => {
-      console.log(234234, data)
-    })
   },
   computed: {
-    ...mapGetters('Home', ['alreadyEnterHome', 'swapperImg'])
+    ...mapGetters('Home', ['alreadyEnterHome', 'swapperImg', 'productClass'])
   },
   methods: {
     ...mapMutations('Home', ['UPDATE_GEUIDE']),
@@ -91,6 +95,8 @@ export default {
 </script>
 <style lang="less" scoped>
   .home {
+    height: calc(~"100vh - 1rem");
+    overflow: auto;
     .home_top {
       width: 100vw;
       height: 0.8rem;
@@ -154,6 +160,31 @@ export default {
       }
       /deep/ .van-swipe__indicators .van-swipe__indicator--active {
         background-color: #f75f47;
+      }
+    }
+    .class_title {
+      text-align: center;
+      font-size: 0.28rem;
+      margin-top: 0.24rem;
+    }
+    .home_class {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 0.24rem 0.48rem;
+      .class_box {
+        border: 0.01rem solid #eeeeee;
+        padding: 0.12rem;
+        margin: 0.12rem;
+        img {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+      .class_text {
+        text-align: center;
+        font-size: 0.24rem;
+        margin-bottom: 0.12rem;
       }
     }
   }
