@@ -20,7 +20,7 @@
     </div>
     <section class="class_title">热门分类</section>
     <ul class="home_class">
-      <li v-for="item in productClass" :key="item.id">
+      <li v-for="item in productClass" :key="item.id" @click="() => {jumpLink(item.id)}">
         <div class="class_box">
           <img :src="item.img_src" />
         </div>
@@ -38,28 +38,6 @@ export default {
   name: 'Home',
   data: () => {
     return {
-      barList: [
-        {
-          title: '库存盘点',
-          icon: 'icon-Homemaintenance'
-        },
-        {
-          title: '库存查询',
-          icon: 'icon-Inquire'
-        },
-        {
-          title: '巡店报告',
-          icon: 'icon-EquipmentRepair'
-        },
-        {
-          title: '报货计划',
-          icon: 'icon-icon_dispatch'
-        },
-        {
-          title: '退货申请',
-          icon: 'icon-icon-Return'
-        }
-      ]
     }
   },
   components: {
@@ -78,16 +56,9 @@ export default {
   methods: {
     ...mapMutations('Home', ['UPDATE_GEUIDE']),
     ...mapActions('Home', ['getSwapperImg']),
-    closeGuide (deep) {
-      console.log(234234, deep)
-      this.UPDATE_GEUIDE({
-        ...this.alreadyEnterHome,
-        deep
-      })
-    },
-    jumpIndex (title) {
+    jumpLink (id) {
       this.$router.push({
-        path: `/index/${title}`
+        path: `/productClass/${id}`
       })
     }
   }
