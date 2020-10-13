@@ -29,8 +29,8 @@ export default {
       pageSize: 20,
       hasLoadAll: false, // 是否已经加载完毕
       beforePullDown: true, // 下拉刷新之前
-      isPullingDown: false, // 下拉ing
-      finshPullingDown: false // 加载完成
+      isPullingDown: false, // 下拉释放
+      finshPullingDown: false // 下拉加载完成
     }
   },
   components: {
@@ -64,7 +64,7 @@ export default {
           this.page += 1
           this.hasLoadAll = this.productList.length < this.pageSize * (this.page - 1) // 当加载的数据少于pageSize的时候，说明加载已经完成了
           if (!this.hasLoadAll) {
-            this.loadData(this.page).then(() => {
+            this.loadData(this.page, false).then(() => {
               this.scroll.finishPullUp()
             })
           }
@@ -80,11 +80,10 @@ export default {
   methods: {
     ...mapActions('ProductClass', ['getProductList']),
     loadData (page, isPullingDown) {
-      console.log(55555, isPullingDown)
       return new Promise(async (resolve, reject) => {
         const { id } = this.$route.params
         const { pageSize } = this
-        await this.getProductList({id, page, pageSize})
+        await this.getProductList({id, page, pageSize, isPullingDown})
         if (isPullingDown) {
           this.isPullingDown = false
           this.finshPullingDown = true
@@ -99,7 +98,6 @@ export default {
     },
     debouncePullingDown (func, delay) {
       return function (...args) {
-        console.log(232323, ...args)
         clearTimeout(timer) // 每次触发，都清除定时器
         timer = setTimeout(() => {
           func(...args)
