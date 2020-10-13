@@ -40,6 +40,7 @@ export default {
     this.loadData(1).then(() => {
       this.$nextTick(() => {
         this.scroll = new BScroll(this.$refs.wrapper, {
+          click: true, // Better Scroll 默认会阻止浏览器原生的click事件，需设置为true
           scrollbar: true,
           pullDownRefresh: { // 配置下拉刷新的功能
             threshold: 50, // 当下拉到超过顶部 50px 时，触发 pullingDown 事件

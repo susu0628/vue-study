@@ -1,10 +1,10 @@
 <template>
-  <div class="product_box">
+  <div class="product_box" @click.stop="jumpToProduct(item.id)">
     <img :src="img_src" />
     <p class="product_title" v-text="title"></p>
     <div class="product_footer">
       <p><span class="price_unit">￥</span>{{price}}</p>
-      <p class="price_btn">马上抢</p>
+      <p class="price_btn" @click="jumpToProduct(item.id)">马上抢</p>
     </div>
   </div>
 </template>
@@ -33,6 +33,13 @@ export default {
     this.img_src = this.item.img_src
     this.title = title
     this.price = price
+  },
+  methods: {
+    jumpToProduct (id) {
+      this.$router.push({
+        path: `/productDetail/${id}`
+      })
+    }
   }
 }
 </script>

@@ -5,6 +5,7 @@ import Index from '@/pages/Index'
 import Home from '@/pages/Home'
 import My from '@/pages/My'
 import ProductClass from '@/pages/ProductClass'
+import ProductDetail from '@/pages/ProductDetail'
 Vue.use(Router)
 
 export default new Router({
@@ -36,6 +37,11 @@ export default new Router({
       path: '/productClass/:id',
       name: 'ProductClass',
       component: ProductClass
+    },
+    {
+      path: '/productDetail/:id',
+      name: 'ProductDetail',
+      component: ProductDetail
     }
   ]
 })
