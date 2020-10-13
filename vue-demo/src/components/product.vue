@@ -24,7 +24,7 @@ export default {
   },
   props: {
     item: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
@@ -53,7 +53,7 @@ export default {
       text-align: left;
     }
     .product_title {
-      overflow: hidden; 
+      overflow: hidden;
       text-overflow:ellipsis;
       display:-webkit-box; // 将对象作为弹性伸缩盒子模型显示
       -webkit-box-orient:vertical; // 从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式）

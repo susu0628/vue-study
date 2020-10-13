@@ -6,19 +6,18 @@ const ProductClass = {
   },
   mutations: {
     UPDATE_PRODUCT_LIST (state, payload = []) {
-      state.productList = payload.productlist
+      state.productList = state.productList.concat(payload.productlist)
     }
   },
   actions: {
-    getProductList ({ commit }, id) {
-      request('/productClass/getProductList', { id }, 'GET').then((data) => {
+    getProductList ({ commit }, params) {
+      request('/productClass/getProductList', params, 'GET').then((data) => {
         commit('UPDATE_PRODUCT_LIST', data)
       })
     }
   },
   getters: {
     productList: (state) => {
-      console.log(898989, state)
       return state.productList
     }
   }
