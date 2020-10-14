@@ -10,6 +10,7 @@ const ProductDetail = {
       state.discountsList = payload
     },
     UPDATE_PRODUCTDETAIL (state, payload = {}) {
+      state.productDetail = payload
     }
   },
   actions: {
@@ -20,7 +21,7 @@ const ProductDetail = {
     },
     getProductDetail ({ commit }, params) {
       request('/productDetail/getProductDetail', params, 'GET').then((data) => {
-        console.log(234234000, data)
+        commit('UPDATE_PRODUCTDETAIL', data)
       })
     }
   },
