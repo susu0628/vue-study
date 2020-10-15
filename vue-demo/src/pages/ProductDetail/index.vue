@@ -57,35 +57,40 @@
         </div>
       </span>
     </Bar>
-    <Bar label="选择" :togglePopup="true">
-      <span slot="bar_desc">颜色；尺码</span>
-    </Bar>
+    <div @click="handleClick">
+      <Bar label="选择" :togglePopup="false">
+        <span slot="bar_desc">颜色；尺码</span>
+      </Bar>
+    </div>
     <div class="productDetail_divide"></div>
     <Bar label="商品评价">
       <span slot="bar_right">暂无评价</span>
     </Bar>
+    <SelectProduct :show="show" :closeClick="closeClick" />
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Bar from '../../components/Bar'
+import SelectProduct from './selectProduct'
 export default {
   name: 'ProductDetail',
   data: () => {
     return {
+      show: false // 是否展开选择商品规格弹窗
     }
   },
   components: {
-    Bar
+    Bar,
+    SelectProduct
   },
   computed: {
     ...mapGetters('ProductDetail', ['discountsList', 'productDetail'])
   },
-  mounted () {
+  created () {
     const { id } = this.$route.params
     this.getDiscounts()
     this.getProductDetail({id}) // 获取商品详情信息
-    console.log(33333, this.productDetail)
   },
   methods: {
     ...mapActions('ProductDetail', ['getDiscounts', 'getProductDetail']),
@@ -93,6 +98,13 @@ export default {
       return (this.discountsList.filter((item) => {
         return item.id === discountid
       })[0] || {}).name
+    },
+    handleClick () {
+      console.log(789789, this.show)
+      this.show = !this.show
+    },
+    closeClick () {
+      this.show = false
     }
   }
 }
