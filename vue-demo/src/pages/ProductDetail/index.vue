@@ -14,21 +14,50 @@
       <p class="productDetail_desc" v-text="productDetail.product_desc"></p>
     </div>
     <div class="productDetail_divide"></div>
-    <Bar label="运费">
+    <Bar label="运费" :togglePopup="false">
       <span slot="bar_desc">￥ {{((productDetail || {}).carriage || 0).toFixed(2)}}</span>
       <span slot="bar_right">剩余 {{productDetail.inventoryAll}}</span>
     </Bar>
-    <Bar label="优惠">
+    <Bar label="优惠" :togglePopup="true">
       <span slot="bar_desc">
         <span v-if="productDetail.discounts === 1" class="discount_tip">包邮</span>
         {{getDiscountsText(productDetail.discounts)}}
       </span>
+      <span slot="bar_popup_content">
+        <div class="popup_content">
+          <p>优惠</p>
+          <p>促销</p>
+          <Bar
+            :barStyle="{backgroundColor: 'rgba(247,95,71, 0.2)', padding: '0.3rem 0.2rem', marginTop: '0.16rem'}"
+            :label="productDetail.discounts === 1 ? '包邮' : '折扣'"
+            :labelStyle="{fontSize: '0.4rem', color: '#f75f47', fontWeight: 'bold', marginRight: '0.24rem'}"
+          >
+            <span slot="bar_desc" v-text="getDiscountsText(productDetail.discounts)"></span>
+          </Bar>
+        </div>
+      </span>
     </Bar>
     <div class="productDetail_divide"></div>
-    <Bar label="服务">
+    <Bar label="服务" :togglePopup="true">
       <span slot="bar_desc" v-text="'收货后结算 · 快递发货'"></span>
+      <span slot="bar_popup_content">
+        <div class="popup_content">
+          <section>
+            <div class="popup_title">收获后结算</div>
+            <div class="popup_text">
+              该店铺交易由瓜皮提供资金存管服务，当符合以下条件时，资金自动结算给商家：买家确认收货或达到约定的自动确认收货日期。交易资金未经瓜皮存管的情形（储值型、电子卡卷等）不在本次服务范围
+            </div>
+          </section>
+          <section>
+            <div class="popup_title">快递发货</div>
+            <div class="popup_text">
+              可选择快递发货配送上门，本商品运费：￥ {{((productDetail || {}).carriage || 0).toFixed(2)}}
+            </div>
+          </section>
+        </div>
+      </span>
     </Bar>
-    <Bar label="选择">
+    <Bar label="选择" :togglePopup="true">
       <span slot="bar_desc">颜色；尺码</span>
     </Bar>
     <div class="productDetail_divide"></div>
@@ -126,6 +155,26 @@ export default {
     background-color: rgba(247,95,71, 0.2);
     padding: 0.02rem 0.1rem;
     border-radius: 0.1rem;
+  }
+  .popup_content {
+    padding: 0.12rem 0.24rem;
+    font-size: 0.24rem;
+    p:first-child {
+      text-align: center;
+      font-size: 0.3rem;
+    }
+    .popup_title {
+      font-size: 0.26rem;
+      font-weight: bold;
+      margin-top: 0.2rem;
+    }
+    .popup_text {
+      font-size: 0.22rem;
+      color: #999;
+      line-height: 0.3rem;
+      margin-top: 0.16rem;
+      margin-bottom: 0.24rem;
+    }
   }
 }
 </style>
