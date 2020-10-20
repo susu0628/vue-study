@@ -84,7 +84,7 @@
         </li>
       </ul>
       <div class="footer_right">
-        <span>加入购物车</span>
+        <span @click="handleClick">加入购物车</span>
         <span>立即购买</span>
       </div>
     </div>
@@ -254,6 +254,7 @@ export default {
     }
     .footer_right {
       margin-top: 0.4rem;
+      color: #fff;
       span {
         padding: 0.18rem 0.3rem;
         font-size: 0.24rem;

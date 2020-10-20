@@ -37,13 +37,13 @@
         <div class="buy_left">购买数量</div>
         <VantStepper v-model="buyNum" integer min="1" button-size="0.5rem" input-width="0.8rem" />
       </div>
-      <div class="popup_btn" @click="addCart">加入购物车</div>
+      <div class="popup_btn" @click="() => {addCart(productDetail.id, 0)}">加入购物车</div>
     </div>
   </VantPopup>
 </template>
 <script>
-import { Popup, Stepper, Button } from 'vant'
-import { mapGetters } from 'vuex'
+import { Popup, Stepper, Button, Toast } from 'vant'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'selectProduct',
   data: (vm) => {
@@ -104,17 +104,25 @@ export default {
     this.isShow = this.show
   },
   methods: {
+    ...mapActions('Cart', ['addCartProduct']),
     chooseColor (id) {
       const {inventory: inventoryNum, color} = this.inventoryColor.filter((item) => {
         return item.id === id
       })[0] || {}
-      console.log(2223, inventoryNum)
       this.inventoryNum = inventoryNum
       this.activeId = id
       this.activeColor = color
     },
-    addCart () {
-      console.log(this.buyNum)
+    addCart (id, isBuy) {
+      if (!this.activeColor) {
+        Toast.fail({
+          position: 'bottom',
+          message: '请选择颜色'
+        })
+        return
+      }
+      const {activeColor, buyNum} = this
+      this.addCartProduct({id, activeColor, buyNum, isBuy})
     }
   }
 }
