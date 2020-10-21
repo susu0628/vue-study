@@ -26,4 +26,8 @@ export default {
   body {
     font-size: 0.16rem;
   }
+  .van-toast--html .van-toast__text, .van-toast--text .van-toast__text {
+      font-size: 0.24rem;
+      padding: 0.1rem;
+    }
 </style>

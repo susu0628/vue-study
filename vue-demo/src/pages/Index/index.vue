@@ -30,7 +30,7 @@ export default {
           menu_text: '全部宝贝'
         },
         {
-          path: '/dataAnalysis',
+          path: '/Cart',
           normalIcon: 'icon-icon-shoppingcart',
           activeIcon: 'icon-icon-shoppingcart1',
           menu_text: '购物车'

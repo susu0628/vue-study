@@ -43,4 +43,18 @@ router.post('/addCartProduct', async (ctx) => {
     }
   }
 })
+router.post('/getCartProduct', async (ctx) => {
+  const data = await new Promise((resolve, reject) => {
+    pool.query(`SELECT * FROM product_cart`, (err, result, fields) => {
+      if (err) throw err
+      resolve(result)
+    })
+  })
+  if (data) {
+    ctx.body = {
+      code: 200,
+      data: data
+    }
+  }
+})
 module.exports = router

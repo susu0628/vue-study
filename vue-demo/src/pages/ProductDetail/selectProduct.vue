@@ -115,14 +115,16 @@ export default {
     },
     addCart (id, isBuy) {
       if (!this.activeColor) {
-        Toast.fail({
+        Toast({
           position: 'bottom',
           message: '请选择颜色'
         })
         return
       }
       const {activeColor, buyNum} = this
-      this.addCartProduct({id, activeColor, buyNum, isBuy})
+      this.addCartProduct({id, activeColor, buyNum, isBuy}).then(() => {
+        this.isShow = false
+      })
     }
   }
 }
