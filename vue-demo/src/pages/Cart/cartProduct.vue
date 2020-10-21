@@ -18,6 +18,7 @@
 </template>
 <script>
 import { Checkbox, Stepper } from 'vant'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'cartProduct',
   data: () => {
@@ -29,10 +30,34 @@ export default {
     VantCheckbox: Checkbox,
     VantStepper: Stepper
   },
+  watch: {
+    checked (value) {
+      const { id } = this.item
+      const idx = this.selecedProductId.indexOf(id)
+      if (value) {
+        if (idx === -1) {
+          this.UPDATE_SELECTPRODUCTID(this.selecedProductId.concat(id))
+        }
+      } else {
+        const newSelecedProductId = this.selecedProductId
+        newSelecedProductId.splice(idx, 1)
+        this.UPDATE_SELECTPRODUCTID(newSelecedProductId)
+      }
+    },
+    selecedProductId (val) {
+      this.checked = val.indexOf(this.item.id) > -1
+    }
+  },
+  computed: {
+    ...mapGetters('Cart', ['selecedProductId', 'checkedAll'])
+  },
   props: {
     item: {
       type: Object
     }
+  },
+  methods: {
+    ...mapMutations('Cart', ['UPDATE_SELECTPRODUCTID'])
   }
 }
 </script>

@@ -3,11 +3,15 @@ import {Toast} from 'vant'
 const Cart = {
   namespaced: true,
   state: {
-    cartList: []
+    cartList: [],
+    selecedProductId: []
   },
   mutations: {
     UPDATE_CARTLIST: (state, payload) => {
       state.cartList = payload
+    },
+    UPDATE_SELECTPRODUCTID: (state, payload) => {
+      state.selecedProductId = payload
     }
   },
   actions: {
@@ -31,6 +35,9 @@ const Cart = {
   getters: {
     cartList: (state) => {
       return state.cartList
+    },
+    selecedProductId: (state) => {
+      return state.selecedProductId
     }
   }
 }

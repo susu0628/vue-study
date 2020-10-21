@@ -14,7 +14,7 @@
     </div>
     <div class="car_bottom">
       <div class="bottom_left">
-        <VantCheckbox />
+        <VantCheckbox v-model="checkedAll" />
         <p>全选</p>
       </div>
       <div class="bottom_right">
@@ -30,14 +30,15 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 import {Checkbox} from 'vant'
 import CartProduct from './cartProduct'
 export default {
   name: 'Cart',
   data: () => {
     return {
-      isEdit: false
+      isEdit: false,
+      checkedAll: false
     }
   },
   components: {
@@ -48,12 +49,27 @@ export default {
     await this.getCartProduct()
   },
   watch: {
+    checkedAll (val) {
+      if (val) {
+        this.UPDATE_SELECTPRODUCTID(this.cartList.map((item) => {
+          return item.id
+        }))
+      } else {
+        if (this.cartList.length === this.selecedProductId.length) {
+          this.UPDATE_SELECTPRODUCTID([])
+        }
+      }
+    },
+    selecedProductId (val) {
+      this.checkedAll = this.cartList.length === val.length
+    }
   },
   computed: {
-    ...mapGetters('Cart', ['cartList'])
+    ...mapGetters('Cart', ['cartList', 'selecedProductId'])
   },
   methods: {
     ...mapActions('Cart', ['getCartProduct']),
+    ...mapMutations('Cart', ['UPDATE_SELECTPRODUCTID']),
     switchEdit () {
       this.isEdit = !this.isEdit
     }
