@@ -24,7 +24,7 @@ export default {
           menu_text: '首页'
         },
         {
-          path: '/shopMgmt',
+          path: '/allProducts',
           normalIcon: 'icon-icon-store1',
           activeIcon: 'icon-icon-store',
           menu_text: '全部宝贝'

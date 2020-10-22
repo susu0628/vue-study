@@ -7,6 +7,7 @@ import My from '@/pages/My'
 import Cart from '@/pages/Cart'
 import ProductClass from '@/pages/ProductClass'
 import ProductDetail from '@/pages/ProductDetail'
+import AllProducts from '@/pages/AllProducts'
 Vue.use(Router)
 
 export default new Router({
@@ -36,6 +37,11 @@ export default new Router({
           path: 'cart',
           name: 'Cart',
           component: Cart
+        },
+        {
+          path: 'allProducts',
+          name: 'AllProducts',
+          component: AllProducts
         }
       ]
     },

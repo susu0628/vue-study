@@ -15,6 +15,9 @@ const home = {
       state.swapperImg = payload
     },
     UPDATE_PRODUCTCLASS: (state, payload = {}) => {
+      // 存储在sessionStorage中时，会转换成json类型，
+      // 所以，一些引用类型对象，我们在存储之前，需先自己利用JSON.stringify()来进行转换
+      sessionStorage.setItem('productClass', JSON.stringify(payload))
       state.productClass = payload
     }
   },
@@ -35,7 +38,7 @@ const home = {
       return state.swapperImg
     },
     productClass: (state) => {
-      return state.productClass
+      return JSON.parse(sessionStorage.getItem('productClass'))
     }
   }
 }

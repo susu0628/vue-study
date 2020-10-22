@@ -1,5 +1,5 @@
 <template>
-  <div class="car_product">
+  <div class="car_product" @click="() => {jumpProductLink(item.pid)}">
     <VantCheckbox v-model="checked" />
     <div class="car_box">
       <div class="car_left">
@@ -71,6 +71,11 @@ export default {
     },
     closeClick () {
       this.show = false
+    },
+    jumpProductLink (id) {
+      this.$router.push({
+        path: `/productDetail/${id}`
+      })
     }
   }
 }

@@ -74,11 +74,11 @@
           <i class="iconfont icon-xiaoxixian"></i>
           <p>客服</p>
         </li>
-        <li @click="() => {jumpLink('shop')}">
+        <li @click="() => {jumpLink('home')}">
           <i class="iconfont icon-dianpu"></i>
           <p>店铺</p>
         </li>
-        <li>
+        <li @click="() => {jumpLink('cart')}">
           <i class="iconfont icon-cart_light"></i>
           <p>购物车</p>
         </li>
@@ -124,11 +124,9 @@ export default {
       })[0] || {}).name
     },
     jumpLink (type) {
-      if (type === 'shop') {
-        this.$router.push({
-          path: '/home'
-        })
-      }
+      this.$router.push({
+        path: `/${type}`
+      })
     },
     handleClick () {
       this.show = !this.show
