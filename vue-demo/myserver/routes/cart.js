@@ -2,7 +2,7 @@ const Router = require('koa-router')
 const pool = require('../pool.js')
 const router = new Router()
 router.post('/addCartProduct', async (ctx) => {
-  const { id: pid, activeColor, buyNum, isBuy } = ctx.request.body
+  const { pid, activeColor, buyNum, isBuy } = ctx.request.body
   const data = await new Promise((resolve, reject) => {
     pool.query(`SELECT title, img_src, price FROM products WHERE id = ${pid}`, (err, result, fields) => {
       if (err) throw err
@@ -54,6 +54,36 @@ router.post('/getCartProduct', async (ctx) => {
     ctx.body = {
       code: 200,
       data: data
+    }
+  }
+})
+router.post('/deleteProduct', async (ctx) => {
+  const { id } = ctx.request.body
+  const data = await new Promise((resolve, reject) => {
+    pool.query(`DELETE FROM product_cart WHERE id = ${id}`, (err, result, fields) => {
+      if (err) throw err
+      resolve(result)
+    })
+  })
+  if (data.affectedRows > 0) {
+    ctx.body = {
+      code: 200,
+      data: '成功'
+    }
+  }
+})
+router.post('/updateCartProduct', async (ctx) => {
+  const { id, buyNum } = ctx.request.body
+  const data = await new Promise((resolve, reject) => {
+    pool.query(`UPDATE product_cart SET buyNum = ${buyNum} WHERE id = ${id}`, (err, result, fields) => {
+      if (err) throw err
+      resolve(result)
+    })
+  })
+  if (data.affectedRows > 0) {
+    ctx.body = {
+      code: 200,
+      data: '成功'
     }
   }
 })

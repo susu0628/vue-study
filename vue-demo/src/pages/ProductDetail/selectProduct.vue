@@ -22,8 +22,8 @@
       <p class="content_title">颜色分类</p>
       <div class="popup_color">
         <VantButton
-          @click="chooseColor(item.id)"
-          :class="{'popup_box': true, 'active_box': item.id === activeId}"
+          @click="chooseColor(item.color)"
+          :class="{'popup_box': true, 'active_box': item.color === activeColor}"
           v-for="item in inventoryColor"
           :key="item.id"
           :disabled="item.disabled"
@@ -49,11 +49,10 @@ export default {
   data: (vm) => {
     return {
       isShow: false,
-      buyNum: 1,
       inventoryNum: 0, // 库存量
-      activeId: 0, // 当前选中颜色的id
-      activeColor: '', // 当前选中的颜色
-      inventoryColor: [] // 颜色的库存
+      inventoryColor: [], // 颜色的库存
+      activeColor: '',
+      buyNum: 1
     }
   },
   computed: {
@@ -65,6 +64,18 @@ export default {
     },
     closeClick: { // 关闭弹出层且动画结束后触发
       type: Function
+    },
+    id: { // 购物车商品的主键id  不是商品id
+      type: Number,
+      default: 0
+    },
+    cartNum: { // 购物车该商品的数量
+      type: Number,
+      default: 1
+    },
+    spec: { // 购物车该商品的规格 即颜色
+      type: String,
+      default: ''
     }
   },
   watch: {
@@ -92,7 +103,6 @@ export default {
           return item
         }
       })
-      console.log(890890, this.inventoryColor)
     }
   },
   components: {
@@ -102,18 +112,38 @@ export default {
   },
   mounted () {
     this.isShow = this.show
+    // 在购物车列表页打开商品选择框时 需回填原始颜色以及原始数量
+    this.activeColor = this.spec
+    this.buyNum = this.cartNum
   },
   methods: {
-    ...mapActions('Cart', ['addCartProduct']),
-    chooseColor (id) {
-      const {inventory: inventoryNum, color} = this.inventoryColor.filter((item) => {
-        return item.id === id
+    ...mapActions('Cart', ['addCartProduct', 'deleteCartProduct', 'getCartProduct', 'updateCartProduct']),
+    chooseColor (color) {
+      const {inventory: inventoryNum} = this.inventoryColor.filter((item) => {
+        return item.color === color
       })[0] || {}
       this.inventoryNum = inventoryNum
-      this.activeId = id
+      // this.activeId = id
       this.activeColor = color
     },
-    addCart (id, isBuy) {
+    // 添加购物车
+    /**
+     * 添加购物车 功能分析
+     * 弹出选择商品页 可能有两种情况
+     * 一、在商品详情页面 点击选择商品颜色、尺码 或单击加入购物车按钮都会弹出选择商品页
+     * 注意：
+     * ① 页面已经存在id相同，颜色相同的商品，此时，应更新该商品的数量
+     * ② 页面不存在id相同，颜色相同的商品，此时，应新增一条数据
+     * this.addCartProduct(...)
+     * 二、在购物车商品列表页面，单击规格，会弹出选择商品页
+     * 注意：
+     * ① 需带原始颜色（spec）、原始数量（cartNum） 到商品选择页，回填上activeColor 以及buyNum
+     * ② 加入购物车时，判断颜色是否改变 颜色未改变，如果数量改变了 更新该购物车商品 否则 不发起请求，直接关闭选择商品页
+     * 更新该购物车商品 新增一个接口 this.updateCartProduct(...)
+     * ③ 颜色改变了，则再次执行① ② 同时，需要删除该购物车商品
+     * 删除该购物车商品 新增一个接口 this.deleteCartProduct(...)
+     */
+    async addCart (id, isBuy) {
       if (!this.activeColor) {
         Toast({
           position: 'bottom',
@@ -121,10 +151,31 @@ export default {
         })
         return
       }
-      const {activeColor, buyNum} = this
-      this.addCartProduct({id, activeColor, buyNum, isBuy}).then(() => {
+      const {activeColor, buyNum, cartNum} = this
+      if (this.id) {
+        if (this.activeColor === this.spec) {
+          if (buyNum !== cartNum) {
+            this.updateCartProduct({id: this.id, buyNum})
+          }
+        } else {
+          const data = await this.addCartProduct({pid: id, activeColor, buyNum, isBuy})
+          if (data.code === 200) {
+            Toast('修改成功')
+          } else {
+            Toast('修改失败')
+          }
+          this.deleteCartProduct({id: this.id})
+        }
         this.isShow = false
-      })
+      } else {
+        const data = this.addCartProduct({pid: id, activeColor, buyNum, isBuy}) || {}
+        if (data.code === 200) {
+          Toast('添加购物车成功')
+        } else {
+          Toast('添加购物车失败')
+        }
+        this.isShow = false
+      }
     }
   }
 }

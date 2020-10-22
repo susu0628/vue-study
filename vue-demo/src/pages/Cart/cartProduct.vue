@@ -7,28 +7,34 @@
       </div>
       <div class="car_right">
         <p v-text="item.title"></p>
-        <p v-text="item.spec"></p>
+        <p>
+          <span class="car_spec" @click="() => {handleShow(item.pid)}">{{item.spec}}<i class="iconfont icon-arrow-bottom"></i></span>
+        </p>
         <div class="car_buy">
           <p><span>￥</span>{{item.price}}</p>
           <VantStepper v-model="item.buyNum" integer min="1" button-size="0.5rem" input-width="0.8rem" />
         </div>
       </div>
     </div>
+    <SelectProduct :show="show" :closeClick="closeClick" :id="item.id" :cartNum="item.buyNum" :spec="item.spec" />
   </div>
 </template>
 <script>
 import { Checkbox, Stepper } from 'vant'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+import SelectProduct from '../ProductDetail/selectProduct'
 export default {
   name: 'cartProduct',
   data: () => {
     return {
-      checked: false
+      checked: false,
+      show: false
     }
   },
   components: {
     VantCheckbox: Checkbox,
-    VantStepper: Stepper
+    VantStepper: Stepper,
+    SelectProduct
   },
   watch: {
     checked (value) {
@@ -57,7 +63,15 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('Cart', ['UPDATE_SELECTPRODUCTID'])
+    ...mapMutations('Cart', ['UPDATE_SELECTPRODUCTID']),
+    ...mapActions('ProductDetail', ['getProductDetail']),
+    handleShow (id) {
+      this.getProductDetail({id})
+      this.show = true
+    },
+    closeClick () {
+      this.show = false
+    }
   }
 }
 </script>
@@ -95,6 +109,15 @@ export default {
           display:-webkit-box;
           -webkit-box-orient:vertical;
           -webkit-line-clamp:2;
+        }
+        .car_spec {
+          background-color: #dfdfdf;
+          padding: 0.08rem 0.4rem;
+          border-radius: 0.2rem;
+          .iconfont {
+            font-size: 0.32rem;
+            vertical-align: middle;
+          }
         }
         .car_buy {
           display: flex;

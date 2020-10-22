@@ -19,11 +19,11 @@
       </div>
       <div class="bottom_right">
         <div class="left_all" v-if="!isEdit">
-          <p>合计: <span>￥</span><span>0</span></p>
+          <p>合计: <span>￥</span><span v-text="totalPrice"></span></p>
           <p>不含运费</p>
         </div>
         <div class="right_btn">
-          <span>{{isEdit ? '删除' : '结算'}}</span>
+          <span :class="totalPrice > 0 ? 'activeBtn' : ''">{{isEdit ? '删除' : '结算'}}</span>
         </div>
       </div>
     </div>
@@ -37,8 +37,9 @@ export default {
   name: 'Cart',
   data: () => {
     return {
-      isEdit: false,
-      checkedAll: false
+      isEdit: false, // 是否是编辑页
+      checkedAll: false, // 是否是全选
+      totalPrice: 0 // 总价
     }
   },
   components: {
@@ -61,6 +62,12 @@ export default {
       }
     },
     selecedProductId (val) {
+      this.totalPrice = val.reduce((sum, val) => {
+        const {price, buyNum} = this.cartList.filter((item) => {
+          return item.id === val
+        })[0] || {}
+        return sum + price * buyNum
+      }, 0)
       this.checkedAll = this.cartList.length === val.length
     }
   },
@@ -80,8 +87,9 @@ export default {
   .car_container {
     font-size: 0.26rem;
     background-color: #f6f6f6;
-    height: 100vh;
+    height: calc(~"100vh - 2rem");
     position: relative;
+    overflow: auto;
     .car_top {
       display: flex;
       justify-content: space-between;
@@ -140,6 +148,10 @@ export default {
             padding: 0.2rem 0.6rem;
             border-radius: 0.4rem;
             background-color: #ccc;
+          }
+          .activeBtn {
+            background-color: #f75f47;
+            color: #fff;
           }
         }
       }
