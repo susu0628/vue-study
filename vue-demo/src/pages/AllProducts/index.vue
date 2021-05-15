@@ -1,9 +1,9 @@
 <template>
-  <div class="all_products">
-    <ul class="products_left">
-      <li v-for="item in productClass" :key="item.id">{{item.name}}</li>
-    </ul>
-    <div class="products_right"></div>
+  <div>
+    <div class="all_products_tabs">
+      <div :class="['product_tab', activeTab === item.id ? 'active_tabs' : '']" v-for="item in productClass" :key="item.id" @click="activeTab=item.id">{{item.name}}</div>
+    </div>
+    <div>123123123123123</div>
   </div>
 </template>
 <script>
@@ -11,7 +11,9 @@ import {mapGetters} from 'vuex'
 export default {
   name: 'AllProducts',
   data: () => {
-    return {}
+    return {
+      activeTab: 1
+    }
   },
   props: {
   },
@@ -31,31 +33,42 @@ export default {
     console.log(234234, this.productClass)
   },
   methods: {
+    // chooseTabs(id) {
+    //   console.log('activeId', id)
+    // }
   }
 }
 </script>
 <style lang="less" scoped>
-  .all_products {
+  .all_products_tabs {
+    position: sticky;
+    top: 0rem;
     display: flex;
-    margin-top: 0.24rem;
-    .products_left {
-      position: fixed;
-      top: 0rem;
-      bottom: 1rem;
-      left: 0rem;
-      width: 2rem;
-      border-right: 0.01rem solid #ccc;
-      font-size: 0.26rem;
-      li {
-        width: 100%;
-        text-align: center;
-        background: rgba(247, 95, 71, 0.05);
-        margin-bottom: 0.08rem;
-        padding: 0.2rem;
-      }
+    font-size: 0.28rem;
+    height: 0.84rem;
+    line-height: 0.84rem;
+    padding: 0rem 0.12rem;
+    box-shadow: 0 -0.02rem 0.06rem 0 rgba(0, 0, 0, 0.07);
+    overflow-x: auto;
+    .product_tab {
+      // width: 2.5rem;
+      min-width: 1.5rem;
+      text-align: center;
+      white-space: nowrap;
     }
-    .products_right {
-      flex: 1;
+    .active_tabs {
+      position: relative;
+    }
+    .active_tabs::after {
+      display: block;
+      content: '';
+      position: absolute;
+      left: 0rem;
+      bottom: 0rem;
+      width: 100%;
+      height: 0.04rem;
+      background: #f75f47;
+      color: #f75f47;
     }
   }
 </style>
