@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>{{color}}</h1>
+    <button @click="changeColor">change colorArray</button>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  data: () => {
+    return {
+      color: ['red', 'green', 'blue'],
+    }
+  },
+  methods: {
+    changeColor() {
+      const newColor = this.color
+      newColor[1] = 'orage'
+      this.color = newColor
+    },
   }
 }
 </script>

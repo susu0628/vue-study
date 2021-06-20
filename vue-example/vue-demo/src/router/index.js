@@ -25,6 +25,11 @@ const routes = [
         path: '/eventBind',
         name: 'EventBind',
         component: () => import('../views/EventBind')
+      },
+      {
+        path: '/changeArray',
+        name: 'ChangeArray',
+        component: () => import('../views/changeArray.vue')
       }
     ]
   }
