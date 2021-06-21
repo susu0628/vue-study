@@ -27,6 +27,11 @@ const routes = [
     path: '/menuTabs',
     name: 'MenuTabs',
     component: () => import('../views/MenuTabs')
+  },
+  {
+    path: '/pcprops',
+    name: 'Parent',
+    component: () => import('../views/pcprops/parent')
   }
 ]
 
