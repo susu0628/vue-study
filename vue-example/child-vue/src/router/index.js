@@ -32,6 +32,11 @@ const routes = [
     path: '/pcprops',
     name: 'Parent',
     component: () => import('../views/pcprops/parent')
+  },
+  {
+    path: '/selfModel',
+    name: 'SelfModel',
+    component: () => import('../views/selfModel/index')
   }
 ]
 
