@@ -37,6 +37,11 @@ const routes = [
     path: '/selfModel',
     name: 'SelfModel',
     component: () => import('../views/selfModel/index')
+  },
+  {
+    path: '/keepalive',
+    name: 'KeepAlive',
+    component: () => import('../views/keepAlive/index')
   }
 ]
 
