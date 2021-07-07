@@ -25,6 +25,11 @@ const routes = [
         path: '/eventBind',
         name: 'EventBind',
         component: () => import('../views/EventBind')
+      },
+      {
+        path: '/mixinPage',
+        name: 'MixinPage',
+        component: () => import('../views/mixinPage')
       }
     ]
   }
