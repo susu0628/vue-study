@@ -30,6 +30,11 @@ const routes = [
         path: '/mixinPage',
         name: 'MixinPage',
         component: () => import('../views/mixinPage')
+      },
+      {
+        path: '/changeArray',
+        name: 'ChangeArray',
+        component: () => import('../views/changeArray.vue')
       }
     ]
   }
