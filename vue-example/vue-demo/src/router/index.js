@@ -35,6 +35,11 @@ const routes = [
         path: '/changeArray',
         name: 'ChangeArray',
         component: () => import('../views/changeArray.vue')
+      },
+      {
+        path: '/vueClass',
+        name: 'VueClass',
+        component: () => import('../views/vueClass')
       }
     ]
   }
