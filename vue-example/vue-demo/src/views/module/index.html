@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./a.js" type="text/javascript"></script>
+  <script src="./b.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    console.log('count', count, moduleA.count);
+    moduleA.foo()
+    moduleA.count = 110 // 内部状态可以被外部改写
+    console.log('moduleA', moduleA.count) 
+    bar()
+  </script>
+</body>
+</html>
+
